@@ -1,0 +1,35 @@
+composer create-project laravel/laravel food-store
+
+// Create a new file called `routes/web.php`
+
+Route::get('/', function () {
+    $items = [
+        ['name' => 'Pizza', 'price' => 10],
+        ['name' => 'Pasta', 'price' => 5],
+        ['name' => 'Salad', 'price' => 3],
+    ];
+
+    return view('items', ['items' => $items]);
+});
+
+Route::get('/items/{id}', function ($id) {
+    $item = $items[$id];
+
+    return view('item', ['item' => $item]);
+});
+
+// Create a new file called `resources/views/items.blade.php`
+
+<ul>
+    @foreach ($items as $item)
+        <li>
+            <a href="{{ route('items.show', $item->id) }}">{{ $item->name }}</a>
+        </li>
+    @endforeach
+</ul>
+
+// Create a new file called `resources/views/item.blade.php`
+
+<h1>{{ $item->name }}</h1>
+<p>{{ $item->price }}</p>
+<a href="{{ route('items.index') }}">Back</a>

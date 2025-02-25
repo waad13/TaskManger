@@ -1,0 +1,42 @@
+User-agent: *
+Disallow:
+// إنشاء مشروع Laravel جديد
+composer create-project laravel/laravel online-store
+
+// إنشاء ملف جديد يسمى `routes/web.php`
+
+Route::get('/', function () {
+    $items = [
+        ['name' => 'Laptop', 'price' => 1000],
+        ['name' => 'Phone', 'price' => 500],
+        ['name' => 'Tablet', 'price' => 300],
+    ];
+
+    // إرجاع عرض يسمى `items` مع بيانات `items`
+    return view('items', ['items' => $items]);
+});
+
+Route::get('/items/{id}', function ($id) {
+    // الحصول على العنصر من المصفوفة باستخدام معرفه
+    $item = $items[$id];
+
+    // إرجاع عرض يسمى `item` مع بيانات `item`
+    return view('item', ['item' => $item]);
+});
+
+// إنشاء ملف جديد يسمى `resources/views/items.blade.php`
+
+<ul>
+    @foreach ($items as $item)
+        <li>
+            <a href="{{ route('items.show', $item->id) }}">{{ $item->name }}</a>
+        </li>
+    @endforeach
+</ul>
+
+// إنشاء ملف جديد يسمى `resources/views/item.blade.php`
+
+<h1>{{ $item->name }}</h1>
+<p>{{ $item->price }}</p>
+<a href="{{ route('items.index') }}">Back</a>
+
